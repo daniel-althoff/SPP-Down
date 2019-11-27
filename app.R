@@ -80,7 +80,7 @@ server <- function(input, output){
     req(input$pass)
     shinyjs::show('button')
   })
-  roots = c(name = getwd())
+  roots = c(name = 'C:/')
   shinyDirChoose(input, 'dir', roots = roots)
   dir <- reactive({
     return(print(parseDirPath(roots, input$dir)))
@@ -105,11 +105,6 @@ server <- function(input, output){
     } else { return() }
   })
   
-  # shinyDirChoose(input, 'folder', roots=c(wd=getwd()), filetypes=c('', 'txt'))
-  # 
-  # outfolder <- reactive({
-  #   return(input$folder)
-  # })
 
   data_range <- reactive({
     switch(input$timescale,
