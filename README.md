@@ -1,5 +1,5 @@
 <div class="fluid-row" id="header">
-    <img src='./misc/rain.png' height='150' width='auto' align='right'>
+    <img src='./www/rain.png' height='150' width='auto' align='right'>
     <h1 class="title toc-ignore">Satellite Precipitation Products Download</h1>
     <h4 class="author"><em>Daniel Althoff</em></h4>
 </div>
