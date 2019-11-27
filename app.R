@@ -25,7 +25,7 @@ ui <- fluidPage(
              
              textInput('acc', h6(tags$b('Earthdata account:'))),
              passwordInput('pass', h6(tags$b('Password:'))),
-           
+             
              dateRangeInput('date', h6(tags$b("Date range:")), 
                             start = '1998-01-01', end = '2019-08-31',
                             min = '1998-01-01', max = '2019-08-31'),
@@ -43,7 +43,7 @@ ui <- fluidPage(
     
     column(3,
            wellPanel(
-             div(style='height: 100px',
+             div(style='height: 110px',
                  fileInput('shpFile', h6(tags$b('Input shapefile components'), h6(tags$em('(.shp, .shx, .dbf, .prj, etc...)'))),
                            multiple=TRUE, accept=c('.shp','.dbf','.sbn','.sbx','.shx',".prj"))),
              div(style='height: 80px',
@@ -54,17 +54,17 @@ ui <- fluidPage(
     column(3,
            wellPanel(
              h6(tags$b('Choose download output folder')),
-             div(shinyDirButton('dir', 'Click here to browse folder', title='Choose path'), style="text-align: center"),
+             div(shinyDirButton('dir', 'Click here to browse folder', title='Choose path'), style="text-align: center; height: 35px" ),
              tags$br(),tags$br(),
-             h6(tags$b('Download button will appear here:')),
-             div(actionButton("button","Ready? Start download!"), style="text-align: center")
+             h6(tags$b('Confirm your output folder:')),
+             verbatimTextOutput("dir")
            )
     ),
     
     column(9,
            mainPanel(
-             column(3,'Confirm your output folder'),
-             column(9,verbatimTextOutput("dir")),
+             column(6,h6(tags$b('Download button will appear here:'))),
+             column(3,div(actionButton("button","Ready? Start download!"), style="text-align: center")),
              plotOutput(outputId = 'AvgTRMM')
            )
     )
@@ -91,7 +91,7 @@ server <- function(input, output){
     return(print(parseDirPath(roots, input$dir)))
   })
   output$dir <- renderPrint(dir())
-                            
+  
   options(shiny.maxRequestSize=50*1024^2)
   uploadShpfile <- reactive({
     if (!is.null(input$shpFile)){
@@ -110,7 +110,7 @@ server <- function(input, output){
     } else { return() }
   })
   
-
+  
   data_range <- reactive({
     switch(input$timescale,
            'Daily' = gsub('-','',seq.Date(from = input$date[1], to = input$date[2], by='day')),
@@ -121,7 +121,7 @@ server <- function(input, output){
     switch(input$timescale,
            'Daily' = rep(1, length(data_range())),
            'Monthly' = 24*days_in_month(seq.Date(from = input$date[1], to = input$date[2], by='month'))
-      
+           
     )
   })
   
@@ -133,18 +133,18 @@ server <- function(input, output){
   
   files_to_download <- reactive({
     switch(input$timescale,
-      'Daily' = paste0('https://',
-                        acc(),':',input$pass,'@',
-                        'disc2.gesdisc.eosdis.nasa.gov/opendap/',
-                        'TRMM_L3/TRMM_3B42_Daily.7/',substr(data_range(),1,4),
-                        '/',substr(data_range(),5,6),'/3B42_Daily.',
-                        data_range(),'.7.nc4.nc4?precipitation,lon,lat'),
-      'Monthly' = paste0('https://',
-                        acc(),':',input$pass,'@',
-                        'disc2.gesdisc.eosdis.nasa.gov/opendap/',
-                        'TRMM_L3/TRMM_3B43.7/',substr(data_range(),1,4),
-                        '/3B43.',
-                        substr(data_range(),1,6),'01.7.HDF.nc4?precipitation,nlon,nlat')
+           'Daily' = paste0('https://',
+                            acc(),':',input$pass,'@',
+                            'disc2.gesdisc.eosdis.nasa.gov/opendap/',
+                            'TRMM_L3/TRMM_3B42_Daily.7/',substr(data_range(),1,4),
+                            '/',substr(data_range(),5,6),'/3B42_Daily.',
+                            data_range(),'.7.nc4.nc4?precipitation,lon,lat'),
+           'Monthly' = paste0('https://',
+                              acc(),':',input$pass,'@',
+                              'disc2.gesdisc.eosdis.nasa.gov/opendap/',
+                              'TRMM_L3/TRMM_3B43.7/',substr(data_range(),1,4),
+                              '/3B43.',
+                              substr(data_range(),1,6),'01.7.HDF.nc4?precipitation,nlon,nlat')
     )
   })
   
@@ -155,7 +155,7 @@ server <- function(input, output){
     return(shp)
   })
   
-
+  
   observeEvent(input$button, {
     req(input$shpFile)
     TRMM_folder <- paste0(dir(),"\\TRMM_folder")
@@ -165,8 +165,8 @@ server <- function(input, output){
     for(i in seq_along(data_range())){
       filename = tempfile(fileext = '.nc4', tmpdir = TRMM_folder)
       fileName <- switch(input$timescale,
-        'Daily' = paste(TRMM_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
-        'Monthly' = paste(TRMM_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
+                         'Daily' = paste(TRMM_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
+                         'Monthly' = paste(TRMM_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
       )
       download.file(files_to_download()[i], filename, mode = "wb", quiet = T)
       addResourcePath("TRMM_folder",TRMM_folder)
