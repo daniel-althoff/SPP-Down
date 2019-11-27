@@ -13,9 +13,8 @@ library(ggplot2)
 
 #User-interface
 ui <- fluidPage(
-  titlePanel(tags$div(h4('Get TRMM (TMPA) Precipitation V7'),
-                      h6('Download data as ".tif" and using a shapefile ')),
-             windowTitle = 'Easy TRMM download'),
+  titlePanel(tags$div(h4('Satellite Precipitation Products Download v1.0.0'),
+                      h6('Datasets available: ', a('TRMM', href='https://pmm.nasa.gov/data-access/downloads/trmm') ))),
   useShinyjs(),
   fluidRow(
     column(3,
@@ -159,18 +158,18 @@ server <- function(input, output){
   
   observeEvent(input$button, {
     req(input$shpFile)
-    TRMM_folder <- paste0(dir(),"\\TRMM_folder")
-    if(!file.exists(TRMM_folder))
-      dir.create(TRMM_folder)
+    SPP_folder <- paste0(dir(),"\\SPP_folder")
+    if(!file.exists(SPP_folder))
+      dir.create(SPP_folder)
     # temp <- tempfile(fileext = ".nc4", tmpdir = "TRMM_folder")
     for(i in seq_along(data_range())){
-      filename = tempfile(fileext = '.nc4', tmpdir = TRMM_folder)
+      filename = tempfile(fileext = '.nc4', tmpdir = SPP_folder)
       fileName <- switch(input$timescale,
-                         'Daily' = paste(TRMM_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
-                         'Monthly' = paste(TRMM_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
+                         'Daily' = paste(SPP_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
+                         'Monthly' = paste(SPP_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
       )
       download.file(files_to_download()[i], filename, mode = "wb", quiet = T)
-      addResourcePath("TRMM_folder",TRMM_folder)
+      addResourcePath("SPP_folder",SPP_folder)
       XX <- ncdf4::nc_open(filename)
       
       lon <- switch(input$timescale,
