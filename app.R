@@ -8,7 +8,10 @@ library(rgeos)
 library(lubridate)
 library(shinyjs)
 library(shinyFiles)
-library(ggplot2)
+library(rasterVis)
+library(viridis)
+library(latticeExtra)
+
 
 
 #User-interface
@@ -224,23 +227,20 @@ server <- function(input, output){
   
   output$AvgTRMM <- renderPlot({
     req(input$shpFile)
-    raster_pts <- localtif() %>% crop(shp_buffer()) %>% 
-      mask(shp_buffer()) %>% rasterToPoints() %>% tbl_df() %>% rename('Rain' = 3)
     
-    ggplot(raster_pts) +
-      geom_point(aes(x=x,y=y, color=Rain), shape = 15, size=50) +
-      geom_path(data = fortify(uploadShpfile()), aes(x=long, y=lat, group=group, linetype='Original'), color='black') +
-      geom_path(data = fortify(shp_buffer()), aes(x=long, y=lat, group=group, linetype='Buffer'), color='black') +
-      scale_linetype_manual(name='', values=c(3,1))+
-      scale_color_viridis_c(direction=-1,
-                            name=expression(paste('Rainfall (mm year'^-1,')'))) +
-      coord_fixed(ratio=1) + labs(x='Longitude', y='Latitude', subtitle = 'Average from 1998 to 2017') +
-      theme(text = element_text('serif'), legend.title = element_text('serif', face = 'plain'),
-            panel.border = element_rect(fill='transparent', color='black'))
+    shp1 <- shp_buffer()
+    shp2 <- uploadShpfile()
     
-    # plot(localtif())
-    # plot(uploadShpfile(), add=T, lty=2)
-    # plot(shp_buffer(), add=T, border='red')
+    levelplot(localtif() %>% crop(shp_buffer()) %>% mask(shp_buffer()), 
+              margin=T, xlab='Latitude', ylab='Longitude',
+              colorkey=list(space='right',
+                            # labels=list(at=seq(from=400, to=1200, length.out = 9)),
+                            axis.line=list(col='black')),
+              par.settings=list(axis.line=list(col='transparent')),
+              scales=list(draw=T), col.regions=viridis(n=101, direction=-1)) +           
+      layer(sp.polygons(shp2, lwd=1), data = list(shp2 = shp2)) +
+      layer(sp.polygons(shp1, lwd=1, lty=2), data = list(shp1=shp1))
+    
   })
   
 }
