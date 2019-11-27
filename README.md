@@ -39,7 +39,7 @@ Data will be placed inside the folder named <b>"SPP_folder"</b> which will be cr
 ```{r setup}
 if(!require(pacman)) install.packages('pacman')
 pacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, ggplot2,
-               sp, lubridate, rgeos, shinyjs, shineFiles, update = F)
+               sp, lubridate, rgeos, shinyjs, shinyFiles, update = F)
 
 runGitHub("SPP-Down", "daniel-althoff")
 ```
