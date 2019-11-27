@@ -18,7 +18,7 @@ You'll need an Earthdata account with a link to the GES DISC (see <b>How to use<
 The download button appears once all required data are filled.<br>
 Data will download inside the folder named <b>"SPP_folder"</b> which will be created in the <b>output directory</b>.
 
-# Release History
+# Release history
 
 * <b>1.0.0</b> (27-11-2019)
     * Available datasets: <a href='https://pmm.nasa.gov/data-access/downloads/trmm' target='blank'>Tropical Rainfall Measuring Mission</a> (<a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B42_Daily_7/summary' target='blank'>TRMM_3B42.v7</a> and <a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B43_7/summary' target='blank'>TRMM_3B43.v7</a>) 
@@ -72,3 +72,11 @@ runGitHub("SPP-Down", "daniel-althoff")
 # Acknowledgements
 
 Special thanks to the <b>Goddard Space Flight Center</b>, <b>Goddard Earth Sciences Data and Information Services Center</b> and <b>NASA's Earth Science Data Systems</b> program.
+
+# Data citation and references
+
+* Tropical Rainfall Measuring Mission (TRMM) (2011), TRMM (TMPA/3B43) Rainfall Estimate L3 1 month 0.25 degree x 0.25 degree V7, Greenbelt, MD, Goddard Earth Sciences Data and Information Services Center (GES DISC), Accessed: [Data Access Date], 10.5067/TRMM/TMPA/MONTH/7
+* Tropical Rainfall Measuring Mission (TRMM) (2016), TRMM (TMPA/3B42) Precipitation L3 1 day 0.25 degree x 0.25 degree V7, Edited by Andrey Savtchenko, Goddard Earth Sciences Data and Information Services Center (GES DISC), Accessed: [Data Access Date], 10.5067/TRMM/TMPA/DAY/7
+* Huffman, G.J. (1997), Estimates of Root-Mean-Square Random Error for Finite Samples of Estimated Precipitation, J. Appl. Meteor.
+* Huffman, G.J., R.F. Adler, D.T. Bolvin, G. Gu, E.J. Nelkin, K.P. Bowman, Y. Hong, E.F. Stocker, D.B. Wolff (2007), The TRMM Multi-satellite Precipitation Analysis: Quasi- Global, Multi-Year, Combined-Sensor Precipitation Estimates at Fine Scale., J. Hydrometeor
+* Huffman, G.J., R.F. Adler, D.T. Bolvin, E.J. Nelkin (2010), The TRMM Multi-satellite Precipitation Analysis (TMPA). Chapter 1 in Satellite Rainfall Applications for Surface Hydrology, doi:10.1007/978-90-481-2915-7
