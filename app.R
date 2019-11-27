@@ -65,7 +65,7 @@ ui <- fluidPage(
            mainPanel(
              column(6,h6(tags$b('Download button will appear here:'))),
              column(3,div(actionButton("button","Ready? Start download!"), style="text-align: center")),
-             plotOutput(outputId = 'AvgTRMM')
+             plotOutput(outputId = 'AvgTRMM', height='325px')
            )
     )
     
@@ -217,11 +217,11 @@ server <- function(input, output){
   
   output$AvgTRMM <- renderPlot({
     req(input$shpFile)
-    raster_pts <- localtif() %>% crop(shp_buffer()) %>%
+    raster_pts <- localtif() %>% crop(shp_buffer()) %>% disaggregate(fact = c(2,2), method='bilinear') %>%
       mask(shp_buffer()) %>% rasterToPoints() %>% tbl_df() %>% rename('Rain' = 3)
     
     ggplot(raster_pts) +
-      geom_point(aes(x=x,y=y, color=Rain), shape = 15, size=1.5) +
+      geom_point(aes(x=x,y=y, color=Rain), shape = 15, size=1.) +
       geom_path(data = fortify(uploadShpfile()), aes(x=long, y=lat, group=group, linetype='Original'), color='black') +
       geom_path(data = fortify(shp_buffer()), aes(x=long, y=lat, group=group, linetype='Buffer'), color='black') +
       scale_linetype_manual(name='', values=c(3,1))+
