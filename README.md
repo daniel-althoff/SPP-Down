@@ -1,7 +1,7 @@
 # Easy TRMM download
 Download TRMM as '.tif' and using a shapefile
 
-In R, type:
+In R, type: <br>
 ´´´
 if(!require(pacman)) install.packages('pacman')
 pacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, ggplot2,
