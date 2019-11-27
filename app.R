@@ -156,15 +156,15 @@ server <- function(input, output){
 
   observeEvent(input$button, {
     req(input$shpFile)
-    TRMM_folder <- "TRMM_folder"
+    TRMM_folder <- paste0(getwd(),"\\TRMM_folder")
     if(!file.exists(TRMM_folder))
-      dir.create("TRMM_folder")
+      dir.create(TRMM_folder)
     # temp <- tempfile(fileext = ".nc4", tmpdir = "TRMM_folder")
     for(i in seq_along(data_range())){
-      filename = tempfile(fileext = '.nc4', tempdir = 'TRMM_folder')
+      filename = tempfile(fileext = '.nc4', tmpdir = TRMM_folder)
       fileName <- switch(input$timescale,
-        'Daily' = paste("TRMM_folder\\TRMM_",data_range()[i],".tif",sep = ""),
-        'Monthly' = paste("TRMM_folder\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
+        'Daily' = paste(TRMM_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
+        'Monthly' = paste(TRMM_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
       )
       download.file(files_to_download()[i], filename, mode = "wb", quiet = T)
       addResourcePath("TRMM_folder",TRMM_folder)
