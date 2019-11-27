@@ -21,7 +21,7 @@ Data will download inside the folder named <b>"SPP_folder"</b> which will be cre
 # Release History
 
 * <b>1.0.0</b> (27-11-2019)
-    * Available dataset: <a href='https://pmm.nasa.gov/data-access/downloads/trmm' target='blank'>Tropical Rainfall Measuring Mission</a> (TRMM) 
+    * Available datasets: <a href='https://pmm.nasa.gov/data-access/downloads/trmm' target='blank'>Tropical Rainfall Measuring Mission</a> (<a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B42_Daily_7/summary' target='blank'>TRMM_3B42.v7</a> and <a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B43_7/summary' target='blank'>TRMM_3B43.v7</a>) 
     * Visualization of shapefile and buffer used to crop/mask
 
 # How to use
@@ -71,4 +71,4 @@ runGitHub("SPP-Down", "daniel-althoff")
 
 # Acknowledgements
 
-Special thanks to the Goddard Space Flight Center, Goddard Earth Sciences Data and Information Services Center and NASA's Earth Science Data Systems (ESDS) program.
+Special thanks to the <b>Goddard Space Flight Center</b>, <b>Goddard Earth Sciences Data and Information Services Center</b> and <b>NASA's Earth Science Data Systems</b> program.
