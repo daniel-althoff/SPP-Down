@@ -65,7 +65,7 @@ runGitHub("SPP-Down", "daniel-althoff")
 <p><b>Ready? Start download!</b> and check your output directory for a new folder (<em>"SPP_folder"</em>) and if data is being downloaded inside it.</p>
 <p> Files will be saved as SPP_YYYYMMDD.tif (Daily) or SPP_YYYYMM.tif (Monthly), e.g., TRMM data referring to 01-june-1998: TRMM_19980601.tif (Daily) or TRMM_199806.tif (Monthly).</p>
 
-<h4>Enjoy!</h4>
+<h3>Enjoy!</h3>
 :smile:
 
 # Acknowledgements
