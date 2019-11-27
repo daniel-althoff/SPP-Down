@@ -65,7 +65,7 @@ ui <- fluidPage(
            mainPanel(
              column(6,h6(tags$b('Download button will appear here:'))),
              column(3,div(actionButton("button","Ready? Start download!"), style="text-align: center")),
-             plotOutput(outputId = 'AvgTRMM', height='325px')
+             plotOutput(outputId = 'AvgTRMM')
            )
     )
     
@@ -80,7 +80,7 @@ server <- function(input, output){
     
     req(shp_buffer())
     req(acc())
-    req(input$pass)
+    req(pass())
     req(dir())
     shinyjs::show('button')
   })
@@ -131,16 +131,21 @@ server <- function(input, output){
     return(acc)
   })
   
+  pass <- reactive({
+    pass <- input$pass
+    pass <- sub('@','%40', pass)
+    return(pass)
+  })
   files_to_download <- reactive({
     switch(input$timescale,
            'Daily' = paste0('https://',
-                            acc(),':',input$pass,'@',
+                            acc(),':',pass(),'@',
                             'disc2.gesdisc.eosdis.nasa.gov/opendap/',
                             'TRMM_L3/TRMM_3B42_Daily.7/',substr(data_range(),1,4),
                             '/',substr(data_range(),5,6),'/3B42_Daily.',
                             data_range(),'.7.nc4.nc4?precipitation,lon,lat'),
            'Monthly' = paste0('https://',
-                              acc(),':',input$pass,'@',
+                              acc(),':',pass(),'@',
                               'disc2.gesdisc.eosdis.nasa.gov/opendap/',
                               'TRMM_L3/TRMM_3B43.7/',substr(data_range(),1,4),
                               '/3B43.',
