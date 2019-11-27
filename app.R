@@ -7,6 +7,7 @@ library(sp)
 library(rgeos)
 library(lubridate)
 library(shinyjs)
+library(shinyFiles)
 
 
 
@@ -49,9 +50,9 @@ ui <- fluidPage(
     
     column(3,
            wellPanel(
+             h6(tags$b('Choose your output folder')),
+             shinyDirButton('dir', 'Output', title='Choose path'),
              h6(tags$b('Download button will appear here:')),
-             tags$br(),
-             tags$br(),
              tags$br(),
              actionButton("button","Ready? Start download!")
            )
@@ -59,6 +60,8 @@ ui <- fluidPage(
     
     column(9,
            mainPanel(
+             'Confirm your output folder',
+             verbatimTextOutput("dir"),
              plotOutput(outputId = 'AvgTRMM')
            )
     )
@@ -77,8 +80,13 @@ server <- function(input, output){
     req(input$pass)
     shinyjs::show('button')
   })
-  
-  
+  roots = c(name = getwd())
+  shinyDirChoose(input, 'dir', roots = roots)
+  dir <- reactive({
+    return(print(parseDirPath(roots, input$dir)))
+  })
+  output$dir <- renderPrint(dir())
+                            
   options(shiny.maxRequestSize=50*1024^2)
   uploadShpfile <- reactive({
     if (!is.null(input$shpFile)){
@@ -156,7 +164,7 @@ server <- function(input, output){
 
   observeEvent(input$button, {
     req(input$shpFile)
-    TRMM_folder <- paste0(getwd(),"\\TRMM_folder")
+    TRMM_folder <- paste0(dir(),"\\TRMM_folder")
     if(!file.exists(TRMM_folder))
       dir.create(TRMM_folder)
     # temp <- tempfile(fileext = ".nc4", tmpdir = "TRMM_folder")
