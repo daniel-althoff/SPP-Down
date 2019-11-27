@@ -37,7 +37,8 @@ Data will download inside the folder named <b>"SPP_folder"</b> which will be cre
 <p>Install the required packages and run the <b>SPP-Down</b> app</p>
 
 ```{r setup}
-ipacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, ggplot2,
+if(!require(pacman)) install.packages('pacman')
+pacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, ggplot2,
                sp, lubridate, rgeos, shinyjs, shineFiles, update = F)
 
 runGitHub("SPP-Down", "daniel-althoff")
