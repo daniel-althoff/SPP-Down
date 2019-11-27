@@ -106,6 +106,7 @@ server <- function(input, output){
       shpPath <- paste(uploadDirectory, shpName, sep="/")
       setwd(prevWD)
       shpFile <- readOGR(shpPath)
+      shpFile <- spTransform(shpFile, CRSobj = CRS('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0'))
       return(shpFile)
     } else { return() }
   })
@@ -173,7 +174,8 @@ server <- function(input, output){
                          'Daily' = paste(SPP_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
                          'Monthly' = paste(SPP_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
       )
-      download.file(files_to_download()[i], filename, mode = "wb", quiet = T)
+      errr <- try(download.file(files_to_download()[i], filename, mode = "wb", quiet = T))
+      if (class(errr) == 'try-error') download.file(sub(pattern = '7.HDF', replacement = '7A.HDF', x = files_to_download()[i]), filename, mode = "wb", quiet = T)
       addResourcePath("SPP_folder",SPP_folder)
       XX <- ncdf4::nc_open(filename)
       
@@ -226,7 +228,7 @@ server <- function(input, output){
       mask(shp_buffer()) %>% rasterToPoints() %>% tbl_df() %>% rename('Rain' = 3)
     
     ggplot(raster_pts) +
-      geom_point(aes(x=x,y=y, color=Rain), shape = 15, size=1.) +
+      geom_point(aes(x=x,y=y, color=Rain), shape = 15, size=50) +
       geom_path(data = fortify(uploadShpfile()), aes(x=long, y=lat, group=group, linetype='Original'), color='black') +
       geom_path(data = fortify(shp_buffer()), aes(x=long, y=lat, group=group, linetype='Buffer'), color='black') +
       scale_linetype_manual(name='', values=c(3,1))+
