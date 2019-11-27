@@ -43,24 +43,28 @@ ui <- fluidPage(
     
     column(3,
            wellPanel(
-             fileInput('shpFile', h6(tags$b('Input shapefile'), h6('(Select all shapefile components)')), accept=c('.shp','.dbf','.sbn','.sbx','.shx',".prj"), multiple=TRUE)
+             div(style='height: 100px',
+                 fileInput('shpFile', h6(tags$b('Input shapefile components'), h6(tags$em('(.shp, .shx, .dbf, .prj, etc...)'))),
+                           multiple=TRUE, accept=c('.shp','.dbf','.sbn','.sbx','.shx',".prj"))),
+             div(style='height: 80px',
+                 numericInput('buffer', h6(tags$b('Buffer'), tags$em('(ex: 0.25 degrees)')), min = 0, max = 50, step = 0.25, value = 0.25))
            )
     ),
     
     column(3,
            wellPanel(
-             # h6(tags$b('Choose your output folder:')),
-             shinyDirButton('dir', 'Click here to choose output folder', title='Choose path'),
-             tags$br(), tags$br(), 
+             h6(tags$b('Choose download output folder')),
+             div(shinyDirButton('dir', 'Click here to browse folder', title='Choose path'), style="text-align: center"),
+             tags$br(),tags$br(),
              h6(tags$b('Download button will appear here:')),
-             actionButton("button","Ready? Start download!")
+             div(actionButton("button","Ready? Start download!"), style="text-align: center")
            )
     ),
     
     column(9,
            mainPanel(
-             'Confirm your output folder',
-             verbatimTextOutput("dir"),
+             column(3,'Confirm your output folder'),
+             column(9,verbatimTextOutput("dir")),
              plotOutput(outputId = 'AvgTRMM')
            )
     )
@@ -77,9 +81,11 @@ server <- function(input, output){
     req(shp_buffer())
     req(acc())
     req(input$pass)
+    req(dir())
     shinyjs::show('button')
   })
-  roots = c(name = 'C:/')
+  
+  roots = c(name = unlist(strsplit(getwd(), .Platform$file.sep))[1])
   shinyDirChoose(input, 'dir', roots = roots)
   dir <- reactive({
     return(print(parseDirPath(roots, input$dir)))
@@ -145,16 +151,10 @@ server <- function(input, output){
   shp_buffer <- reactive({
     req(input$shpFile)
     shp <- spTransform(uploadShpfile(), CRSobj = CRS('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0'))
-    shp <- buffer(shp, 0.25)
+    shp <- buffer(shp, input$buffer)
     return(shp)
   })
   
-  # observe({
-  #   req(input$shpFile)
-  #   print(files_to_download()[1])
-  #   print(paste("TRMM",data_range()[1],".tif",sep = ""))
-  #   print(outfolder())
-  # })
 
   observeEvent(input$button, {
     req(input$shpFile)
@@ -208,11 +208,32 @@ server <- function(input, output){
     return(localtif)
   })
   
+  # observe({
+  #   req(input$shpFile)
+  #   raster_pts <- localtif() %>% crop(shp_buffer()) %>%
+  #     mask(shp_buffer()) %>% rasterToPoints() %>% tbl_df() %>% rename('Rain' = 3)
+  #   print(names(raster_pts)[3])
+  # })
+  
   output$AvgTRMM <- renderPlot({
     req(input$shpFile)
-    plot(localtif())
-    plot(uploadShpfile(), add=T, lty=2)
-    plot(shp_buffer(), add=T, border='red')
+    raster_pts <- localtif() %>% crop(shp_buffer()) %>%
+      mask(shp_buffer()) %>% rasterToPoints() %>% tbl_df() %>% rename('Rain' = 3)
+    
+    ggplot(raster_pts) +
+      geom_point(aes(x=x,y=y, color=Rain), shape = 15, size=1.5) +
+      geom_path(data = fortify(uploadShpfile()), aes(x=long, y=lat, group=group, linetype='Original'), color='black') +
+      geom_path(data = fortify(shp_buffer()), aes(x=long, y=lat, group=group, linetype='Buffer'), color='black') +
+      scale_linetype_manual(name='', values=c(3,1))+
+      scale_color_viridis_c(direction=-1,
+                            name=expression(paste('Rainfall (mm year'^-1,')'))) +
+      coord_fixed(ratio=1) + labs(x='Longitude', y='Latitude', subtitle = 'Average from 1998 to 2017') +
+      theme(text = element_text('serif'), legend.title = element_text('serif', face = 'plain'),
+            panel.border = element_rect(fill='transparent', color='black'))
+    
+    # plot(localtif())
+    # plot(uploadShpfile(), add=T, lty=2)
+    # plot(shp_buffer(), add=T, border='red')
   })
   
 }
