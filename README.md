@@ -33,7 +33,7 @@ Data will download inside the folder named <b>"SPP_folder"</b> which will be cre
 <h6>With ShinyApp</h6>
 <p>Access the <a href="https://daniel-althoff.shinyapps.io/SPP-Down/" target="blank">SPP-Down</a> app directly in shinyapps.io.</p>-->
 
-<h5>With R</h5>
+<h5>With R </h5>
 <p>Install the required packages and run the <b>SPP-Down</b> app</p>
 
 ```{r setup}
