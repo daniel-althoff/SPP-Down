@@ -115,7 +115,7 @@ server <- function(input, output){
   data_range <- reactive({
     switch(input$timescale,
            'Daily' = gsub('-','',seq.Date(from = input$date[1], to = input$date[2], by='day')),
-           'Monthly' = gsub('-','',seq.Date(from = input$date[1], to = input$date[2], by='month')))
+           'Monthly' = gsub('-','',seq.Date(from = input$date[1]-day(input$date[1])+1, to = input$date[2]-day(input$date[2])+1, by='month')))
   })
   
   correcao <- reactive({
