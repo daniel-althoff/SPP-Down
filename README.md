@@ -16,7 +16,7 @@ Satellite Precipitation Products Download (SPP-Down) is an App developed with <a
 <br>
 You'll need an Earthdata account with a link to the GES DISC (see <b>How to use</b> bellow).<br>
 The download button appears once all required data are filled.<br>
-Data will be download into a folder named <b>"TRMM_folder"</b> within the <b>output directory</b>.
+Data will download inside the folder named <b>"TRMM_folder"</b> which will be created in the <b>output directory</b>.
 
 # Release History
 
