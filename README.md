@@ -26,14 +26,14 @@ Data will download inside the folder named <b>"TRMM_folder"</b> which will be cr
 
 # How to use
 
-<a href='https://urs.earthdata.nasa.gov/home' target='blank'>Create Earthdata account</a>
+<a href='https://urs.earthdata.nasa.gov/home' target='blank'>Create Earthdata account</a><br>
 <a href='https://disc.gsfc.nasa.gov/earthdata-login' target='blank'>Link GES DISC with your account</a>
 
 <!--<h4>1. Open the <b>SPP-Down</b> app</h4>
 <h6>With ShinyApp</h6>
 <p>Access the <a href="https://daniel-althoff.shinyapps.io/SPP-Down/" target="blank">SPP-Down</a> app directly in shinyapps.io.</p>-->
 
-<h6>With R</h6>
+<h5>With R</h5>
 <p>Install the required packages and run the <b>SPP-Down</b> app</p>
 
 ```{r setup}
