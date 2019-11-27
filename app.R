@@ -14,7 +14,8 @@ library(ggplot2)
 #User-interface
 ui <- fluidPage(
   titlePanel(tags$div(h4('Get TRMM (TMPA) Precipitation V7'),
-                      h6('Download data as ".tif" and using a shapefile '))),
+                      h6('Download data as ".tif" and using a shapefile ')),
+             windowTitle = 'Easy TRMM download'),
   useShinyjs(),
   fluidRow(
     column(3,
@@ -217,7 +218,7 @@ server <- function(input, output){
   
   output$AvgTRMM <- renderPlot({
     req(input$shpFile)
-    raster_pts <- localtif() %>% crop(shp_buffer()) %>% disaggregate(fact = c(2,2), method='bilinear') %>%
+    raster_pts <- localtif() %>% crop(shp_buffer()) %>% 
       mask(shp_buffer()) %>% rasterToPoints() %>% tbl_df() %>% rename('Rain' = 3)
     
     ggplot(raster_pts) +
