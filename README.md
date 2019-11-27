@@ -13,9 +13,10 @@ Satellite Precipitation Products Download (SPP-Down) is an App developed with <a
     * crop/mask <em>raster</em> files using chosen shapefile; and,
     * if the desired time resolution is <b>Monthly</b>, the original unit (mm/hr) is converted to mm/month.
     
-    
-You'll need an Earthdata account with a link to the GES DISC (see <b>How to use</b> bellow).<br><br>
-The download button appears once all required data are filled. Data will be download into a folder named <b>"TRMM_folder"</b> within the <b>output directory</b>.
+<br>
+You'll need an Earthdata account with a link to the GES DISC (see <b>How to use</b> bellow).<br>
+The download button appears once all required data are filled.<br>
+Data will be download into a folder named <b>"TRMM_folder"</b> within the <b>output directory</b>.
 
 # Release History
 
