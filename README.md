@@ -76,7 +76,7 @@ Special thanks to the <b>Goddard Space Flight Center</b>, <b>Goddard Earth Scien
 # Data citation and references
 
 * Althoff, D. (2019), Satellite Precipitation Products Download, GitHub repository, https://github.com/daniel-althoff/SPP-Down
-* Huffman, G.J. (1997), Estimates of Root-Mean-Square Random Error for Finite Samples of Estimated Precipitation, J. Appl. Meteor, <a href='https://doi.org/10.1175/1520-0450(1997)036<1191:EORMSR>2.0.CO;2' target='blank'>https://doi.org/10.1175/1520-0450(1997)036<1191:EORMSR>2.0.CO;2</a>
+* Huffman, G.J. (1997), Estimates of Root-Mean-Square Random Error for Finite Samples of Estimated Precipitation, J. Appl. Meteor, [https://doi.org/10.1175/1520-0450(1997)036<1191:EORMSR>2.0.CO;2](https://doi.org/10.1175/1520-0450(1997)036<1191:EORMSR>2.0.CO;2)
 * Huffman, G.J., R.F. Adler, D.T. Bolvin, G. Gu, E.J. Nelkin, K.P. Bowman, Y. Hong, E.F. Stocker, D.B. Wolff (2007), The TRMM Multi-satellite Precipitation Analysis: Quasi- Global, Multi-Year, Combined-Sensor Precipitation Estimates at Fine Scale., J. Hydrometeor, https://doi.org/10.1175/JHM560.1
 * Huffman, G.J., R.F. Adler, D.T. Bolvin, E.J. Nelkin (2010), The TRMM Multi-satellite Precipitation Analysis (TMPA). Chapter 1 in Satellite Rainfall Applications for Surface Hydrology, https://doi.org/10.1007/978-90-481-2915-7
 * Tropical Rainfall Measuring Mission (TRMM) (2011), TRMM (TMPA/3B43) Precipitation Estimate L3 1 month 0.25 degree x 0.25 degree V7, Greenbelt, MD, Goddard Earth Sciences Data and Information Services Center (GES DISC), Accessed: [Data Access Date], https://doi.org/10.5067/TRMM/TMPA/MONTH/7
