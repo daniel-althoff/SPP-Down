@@ -49,8 +49,8 @@ runGitHub("SPP-Down", "daniel-althoff")
 * <b>Fill all required information</b> 
     * Provide your Earthdata account and password
     * Choose desired data range
-    * Choose desired time resolution (daily or monthly)
-    * Select your shapefile (remeber to select all components, i.e, <em>.shp, shx, .dbf, .prj, etc...</em>
+    * Choose desired time resolution (Daily or Monthly)
+    * Select your shapefile (remeber to select all components, i.e, <em>.shp, shx, .dbf, .prj, etc...</em>)
     * Input buffer (>= 0)
     * Select output folder
     * Check if output folder is correct
