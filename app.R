@@ -8,7 +8,7 @@ library(rgeos)
 library(lubridate)
 library(shinyjs)
 library(shinyFiles)
-
+library(ggplot2)
 
 
 #User-interface
