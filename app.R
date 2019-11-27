@@ -44,16 +44,15 @@ ui <- fluidPage(
     column(3,
            wellPanel(
              fileInput('shpFile', h6(tags$b('Input shapefile'), h6('(Select all shapefile components)')), accept=c('.shp','.dbf','.sbn','.sbx','.shx',".prj"), multiple=TRUE)
-             # shinyDirButton('folder', 'Select a folder', 'Please select a folder', FALSE),
            )
     ),
     
     column(3,
            wellPanel(
-             h6(tags$b('Choose your output folder')),
-             shinyDirButton('dir', 'Output', title='Choose path'),
+             # h6(tags$b('Choose your output folder:')),
+             shinyDirButton('dir', 'Click here to choose output folder', title='Choose path'),
+             tags$br(), tags$br(), 
              h6(tags$b('Download button will appear here:')),
-             tags$br(),
              actionButton("button","Ready? Start download!")
            )
     ),
