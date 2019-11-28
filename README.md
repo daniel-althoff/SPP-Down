@@ -6,9 +6,10 @@
 
 # About
 
-Satellite Precipitation Products Download (SPP-Down) is an App developed with <a href='https://shiny.rstudio.com/' target='blank'>Shiny</a> to ease the download of Precipitation Measuring Mission datasets from the <a href='https://disc.gsfc.nasa.gov/datasets/' target='blank'>Goddard Earth Sciences Data and Information Services Center</a> (GES DISC).<br> 
+Satellite Precipitation Products Download (SPP-Down) is an App developed with <a href='https://shiny.rstudio.com/' target='blank'>Shiny</a> to download Precipitation Measuring Missions datasets from the <a href='https://disc.gsfc.nasa.gov/datasets/' target='blank'>Goddard Earth Sciences Data and Information Services Center</a> (GES DISC).<br> <br>
+The main goal of the SPP-Down is to help people that are not proficient in programmming to etiher download large datasets or manipulate specific file formats. Therefore, the SPP-Down performs some basic preprocessing before saving the final file.
 
-* Preprocessing of downloaded data consists of:
+* Data preprocessing consists of:
     * <em>.nc4</em> conversion to <em>.tif</em>;
     * transpose and flip ('y' direction) the <em>raster (.tif)</em> file to correct its orientation;
     * set buffer to uploaded <em>shapefile</em> (done to not mask out pixels in along <em>shapefile</em> borders); and,
