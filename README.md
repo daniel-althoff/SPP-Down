@@ -17,8 +17,9 @@ The main goal of the SPP-Down is to help people that are not proficient in progr
     
 <b><em>Note:</em></b> If the desired time resolution is <b>Monthly</b>, the original unit is in <b>mm/hr</b> and will be converted to <b>mm/month</b> considering the correct number of days within each month.<br>
    
-Be careful when comparing the sum of daily products to monthly data. The following quote is from the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA) on the <b>Algorithm and Processing</b>:<br>
- <em>"Limits are imposed on the scaling to avoid unphysical results, so particularly in low-rain areas, <b>the 3B42 values in a month may not sum exactly to the corresponding 3B43</b>. For this reason, 3B43 is the preferred dataset for monthly values."</em>
+Be careful when comparing the sum of daily to monthly products. The following quote is from the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA) on the <b>Algorithm and Processing</b>:<br>
+ <em>"Limits are imposed on the scaling to avoid unphysical results, so particularly in low-rain areas, <b>the 3B42 values in a month may not sum exactly to the corresponding 3B43</b>. For this reason, 3B43 is the preferred dataset for monthly values."</em> <br>
+ -- 3B42 and 3B43 refers to daily and monthly products of the Tropical Rainfall Measuring Mission.
 
 # Release history
 
