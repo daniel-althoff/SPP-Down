@@ -19,11 +19,6 @@ Satellite Precipitation Products Download (SPP-Down) is an App developed with <a
    
  According to the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA), on the <b>Algorithm and Processing</b>:<br>
  "Limits are imposed on the scaling to avoid unphysical results, so particularly in low-rain areas, <b>the 3B42 values in a month may not sum exactly to the corresponding 3B43</b>. For this reason, 3B43 is the preferred dataset for monthly values."
- 
-<br>
-You'll need an Earthdata account with a link to the GES DISC (see <b>How to use</b> bellow).<br>
-The download button appears once all required data are filled.<br>
-Data will be placed inside the folder named <b>"SPP_folder"</b> which will be created in the <b>output directory</b>.
 
 # Release history
 
@@ -63,8 +58,8 @@ runGitHub("SPP-Down", "daniel-althoff")
     * Select output folder
     * Check if output folder is correct
     
-<p> After the shapefile upload completes, the main panel will render a plot showing the your original shapefile, the buffer, and the average annual precipitation (mm/year) from 1998 to 2017 (20 years) <br>
-    For this tutorial, we used the Cerrado biome (Brazil) shapefile as an example. </p> 
+<p> After the shapefile upload completes, the main panel will render a plot showing the your original shapefile, the buffer, and the average annual precipitation (mm/year) from 1998 to 2017 (20 years). <br>
+ For this tutorial, we used the Cerrado biome (Brazil) shapefile as an example. </p> 
 <p>The <b>download button</b> appears once all required information are filled.
   
 <img src="./misc/fig2.png"
