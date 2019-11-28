@@ -7,7 +7,7 @@
 # About
 
 Satellite Precipitation Products Download (SPP-Down) is an App developed with <a href='https://shiny.rstudio.com/' target='blank'>Shiny</a> to download Precipitation Measuring Missions datasets from the <a href='https://disc.gsfc.nasa.gov/datasets/' target='blank'>Goddard Earth Sciences Data and Information Services Center</a> (GES DISC).<br> <br>
-The main goal of the SPP-Down is to help people that are not proficient in programmming to etiher download large datasets or manipulate specific file formats. Therefore, the SPP-Down performs some basic preprocessing before saving the final file.
+The main goal of the SPP-Down is to help people that are not proficient in programmming to download large datasets and/or manipulate specific file formats. Therefore, the SPP-Down performs some basic preprocessing before saving the final file.
 
 * Data preprocessing consists of:
     * <em>.nc4</em> conversion to <em>.tif</em>;
@@ -15,11 +15,10 @@ The main goal of the SPP-Down is to help people that are not proficient in progr
     * set buffer to uploaded <em>shapefile</em> (done to not mask out pixels in along <em>shapefile</em> borders); and,
     * crop/mask <em>raster</em> files using the <em>shapefile</em> buffer.
     
-<em>Obs:</em> If the desired time resolution is <b>Monthly</b>, the original unit (mm/hr) is converted to mm/month.<br>
-    * Conversion considers the right number of days within each month
+<b><em>Note:</em></b> If the desired time resolution is <b>Monthly</b>, the original unit is in <b>mm/hr</b> and will be converted to <b>mm/month</b> considering the correct number of days within each month.<br>
    
- According to the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA), on the <b>Algorithm and Processing</b>:<br>
- "Limits are imposed on the scaling to avoid unphysical results, so particularly in low-rain areas, <b>the 3B42 values in a month may not sum exactly to the corresponding 3B43</b>. For this reason, 3B43 is the preferred dataset for monthly values."
+Be careful when comparing the sum of daily products to monthly data. The following quote is from the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA) on the <b>Algorithm and Processing</b>:<br>
+ <em>"Limits are imposed on the scaling to avoid unphysical results, so particularly in low-rain areas, <b>the 3B42 values in a month may not sum exactly to the corresponding 3B43</b>. For this reason, 3B43 is the preferred dataset for monthly values."</em>
 
 # Release history
 
