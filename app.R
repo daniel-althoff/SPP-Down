@@ -50,7 +50,7 @@ ui <- fluidPage(
                  fileInput('shpFile', h6(tags$b('Input shapefile components'), h6(tags$em('(.shp, .shx, .dbf, .prj, etc...)'))),
                            multiple=TRUE, accept=c('.shp','.dbf','.sbn','.sbx','.shx',".prj"))),
              div(style='height: 80px',
-                 numericInput('buffer', h6(tags$b('Buffer'), tags$em('(ex: 0.25 degrees)')), min = 0, max = 50, step = 0.25, value = 0.25))
+                 numericInput('buffer', h6(tags$b('Buffer'), tags$em('(ex: 0.25 degrees)')), min = 0, max = 50, step = 0.25, value = 0.0))
            )
     ),
     
@@ -160,7 +160,9 @@ server <- function(input, output){
   shp_buffer <- reactive({
     req(input$shpFile)
     shp <- spTransform(uploadShpfile(), CRSobj = CRS('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0'))
+    options(warn = -1)
     shp <- buffer(shp, input$buffer)
+    options(warn = 0)
     return(shp)
   })
   
@@ -200,7 +202,13 @@ server <- function(input, output){
       prec[prec == fillv$value] <- NA
       r <- raster((prec), xmn=-180, xmx=180, ymn=-50, ymx=50, 
                   crs=CRS('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0')) %>%
-        flip(direction='y') %>% crop(shp_buffer()) %>% mask(shp_buffer())
+        flip(direction='y')
+      
+      options(warn = -1)
+      cls <- cellFromPolygon(r, shp_buffer(), weights = TRUE)[[1]][, "cell"]
+      r[][-cls] <- NA
+      r <- trim(r)
+      options(warn = 0)
       
       writeRaster(r*correcao()[i], fileName, format='GTiff', overwrite=T)
     }
@@ -213,7 +221,13 @@ server <- function(input, output){
                   destfile = loadtif, mode='wb', quiet = T)
     localtif = raster(loadtif)
     crs(localtif) <- crs(shp_buffer())
-    localtif = crop(localtif, shp_buffer()) %>% mask(shp_buffer())
+    
+    options(warn = -1)
+    cls <- cellFromPolygon(localtif, shp_buffer(), weights = TRUE)[[1]][, "cell"]
+    localtif[][-cls] <- NA
+    localtif <- trim(localtif)
+    options(warn = 0)
+    # localtif = crop(localtif, shp_buffer()) %>% mask(shp_buffer())
     unlink(loadtif)
     return(localtif)
   })
@@ -228,10 +242,11 @@ server <- function(input, output){
   output$AvgTRMM <- renderPlot({
     req(input$shpFile)
     
+    img <- localtif()
     shp1 <- shp_buffer()
     shp2 <- uploadShpfile()
     
-    levelplot(localtif() %>% crop(shp_buffer()) %>% mask(shp_buffer()), 
+    levelplot(img, 
               margin=T, xlab='Latitude', ylab='Longitude',
               colorkey=list(space='right',
                             # labels=list(at=seq(from=400, to=1200, length.out = 9)),
