@@ -12,8 +12,8 @@ The main goal of the SPP-Down is to help people that are not proficient in progr
 * Data preprocessing consists of:
     * <em>.nc4</em> conversion to <em>.tif</em>;
     * transpose and flip ('y' direction) the <em>raster (.tif)</em> file to correct its orientation;
-    * set buffer to uploaded <em>shapefile</em> (done to not mask out pixels in along <em>shapefile</em> borders); and,
-    * crop/mask <em>raster</em> files using the <em>shapefile</em> buffer.
+    * optionally adds a buffer to the <em>shapefile</em> (to cover more pixels along the border); and,
+    * crop/mask <em>raster</em> files using the <em>shapefile</em>.
     
 <b><em>Note:</em></b> If the desired time resolution is <b>Monthly</b>, the original unit is in <b>mm/hr</b> and will be converted to <b>mm/month</b> considering the correct number of days within each month.<br>
    
