@@ -172,7 +172,7 @@ server <- function(input, output){
       dir.create(SPP_folder)
     # temp <- tempfile(fileext = ".nc4", tmpdir = "TRMM_folder")
     for(i in seq_along(data_range())){
-      filename = tempfile(fileext = '.nc4', tmpdir = SPP_folder)
+      filename = tempfile(fileext = '.nc4')
       fileName <- switch(input$timescale,
                          'Daily' = paste(SPP_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
                          'Monthly' = paste(SPP_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
