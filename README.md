@@ -11,9 +11,10 @@ Satellite Precipitation Products Download (SPP-Down) is an App developed with <a
 * Preprocessing of downloaded data consists of:
     * <em>.nc4</em> conversion to <em>.tif</em>;
     * transpose and flip ('y' direction) the <em>raster (.tif)</em> file to correct its orientation;
-    * set buffer to shapefile in order to not mask out pixels in shapefile borders; and,
-    * crop/mask <em>raster</em> files using the shapefile buffer.
+    * set buffer to uploaded <em>shapefile</em> (done to not mask out pixels in along <em>shapefile</em> borders); and,
+    * crop/mask <em>raster</em> files using the <em>shapefile</em> buffer.
     * <em>Obs:</em>If the desired time resolution is <b>Monthly</b>, the original unit (mm/hr) is converted to mm/month.
+        * Conversion considers the right number of days within each month
     
 <br>
 You'll need an Earthdata account with a link to the GES DISC (see <b>How to use</b> bellow).<br>
