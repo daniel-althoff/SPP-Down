@@ -16,7 +16,7 @@ library(latticeExtra)
 
 #User-interface
 ui <- fluidPage(
-  titlePanel(tags$div(h4('Satellite Precipitation Products Download v1.0.0'),
+  titlePanel(tags$div(h4(a('Satellite Precipitation Products Download v1.0.0', href = 'https://github.com/daniel-althoff/SPP-Down')),
                       h6('Datasets available: ', a('TRMM', href='https://pmm.nasa.gov/data-access/downloads/trmm') ))),
   useShinyjs(),
   fluidRow(
