@@ -130,14 +130,12 @@ server <- function(input, output){
   })
   
   acc <- reactive({
-    acc <- input$acc
-    acc <- sub('@','%40', acc)
+    acc <- URLencode(input$acc, reserved = T)
     return(acc)
   })
   
   pass <- reactive({
-    pass <- input$pass
-    pass <- sub('@','%40', pass)
+    pass <- URLencode(input$pass, reserved = T)
     return(pass)
   })
   files_to_download <- reactive({
