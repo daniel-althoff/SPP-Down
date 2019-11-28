@@ -14,7 +14,7 @@ Satellite Precipitation Products Download (SPP-Down) is an App developed with <a
     * set buffer to uploaded <em>shapefile</em> (done to not mask out pixels in along <em>shapefile</em> borders); and,
     * crop/mask <em>raster</em> files using the <em>shapefile</em> buffer.
     
-<em>Obs:</em> If the desired time resolution is <b>Monthly</b>, the original unit (mm/hr) is converted to mm/month.
+<em>Obs:</em> If the desired time resolution is <b>Monthly</b>, the original unit (mm/hr) is converted to mm/month.<br>
     * Conversion considers the right number of days within each month
    
  According to the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA), on the <b>Algorithm and Processing</b>:
