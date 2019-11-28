@@ -17,7 +17,7 @@ Satellite Precipitation Products Download (SPP-Down) is an App developed with <a
 <em>Obs:</em> If the desired time resolution is <b>Monthly</b>, the original unit (mm/hr) is converted to mm/month.<br>
     * Conversion considers the right number of days within each month
    
- According to the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA), on the <b>Algorithm and Processing</b>:
+ According to the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA), on the <b>Algorithm and Processing</b>:<br>
  "Limits are imposed on the scaling to avoid unphysical results, so particularly in low-rain areas, <b>the 3B42 values in a month may not sum exactly to the corresponding 3B43</b>. For this reason, 3B43 is the preferred dataset for monthly values."
  
 <br>
