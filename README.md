@@ -2,7 +2,7 @@
 <a href='https://github.com/daniel-althoff/SPP-Down/' target='blank'>SPP-Down GitHub page</a>
 
 <div class="fluid-row" id="header">
-    <img src='./www/rain.png' height='150' width='auto' align='right'>
+    <img src='/images/SPP-Down/rain.png' height='150' width='auto' align='right'>
     <h1 class="title toc-ignore">Satellite Precipitation Products Download</h1>
     <h4 class="author"><em>Daniel Althoff</em></h4>
 </div>
@@ -49,7 +49,7 @@ Be careful when comparing the sum of daily to monthly products. The following qu
 > runGitHub("SPP-Down", "daniel-althoff")
 
 
-<img src="./misc/fig1.png"
+<img src="/images/SPP-Down/fig1.png"
      style="float: left; margin-right: 10px;" />
 
 * <b>Fill all required information</b> 
@@ -65,7 +65,7 @@ Be careful when comparing the sum of daily to monthly products. The following qu
  For this tutorial, we used the Cerrado biome (Brazil) shapefile as an example. </p> 
 <p>The <b>download button</b> appears once all required information are filled.
   
-<img src="./misc/fig2.png"
+<img src="/images/SPP-Down/fig2.png"
      style="float: left; margin-right: 10px;" />
      
 <p><b>Ready? Start download!</b> and check your output directory for a new folder (<em>"SPP_folder"</em>) and if data is being downloaded inside it.</p>
