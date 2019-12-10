@@ -1,3 +1,6 @@
+[Go back](/)<br><br>
+<a href='https://github.com/daniel-althoff/SPP-Down/' target='blank'>SPP-Down GitHub page</a>
+
 <div class="fluid-row" id="header">
     <img src='./www/rain.png' height='150' width='auto' align='right'>
     <h1 class="title toc-ignore">Satellite Precipitation Products Download</h1>
@@ -39,13 +42,12 @@ Be careful when comparing the sum of daily to monthly products. The following qu
 <h5>With R </h5>
 <p>Install the required packages and run the <b>SPP-Down</b> app</p>
 
-```{r setup}
-if(!require(pacman)) install.packages('pacman')
-pacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, rasterVis, viridis, latticeExtra,
-               sp, lubridate, rgeos, shinyjs, shinyFiles, update = F)
+> if(!require(pacman)) install.packages('pacman')
+> pacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, rasterVis, viridis, latticeExtra,
+>                sp, lubridate, rgeos, shinyjs, shinyFiles, update = F)
+> 
+> runGitHub("SPP-Down", "daniel-althoff")
 
-runGitHub("SPP-Down", "daniel-althoff")
-```
 
 <img src="./misc/fig1.png"
      style="float: left; margin-right: 10px;" />
