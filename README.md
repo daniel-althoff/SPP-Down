@@ -42,8 +42,8 @@ Be careful when comparing the sum of daily to monthly products. The following qu
 <h5>With R </h5>
 <p>Install the required packages and run the <b>SPP-Down</b> app</p>
 
-> if(!require(pacman)) install.packages('pacman')
-> pacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, rasterVis, viridis, latticeExtra,
+> if(!require(pacman)) install.packages('pacman') <br>
+> pacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, rasterVis, viridis, latticeExtra, <br>
 >                sp, lubridate, rgeos, shinyjs, shinyFiles, update = F)
 > 
 > runGitHub("SPP-Down", "daniel-althoff")
