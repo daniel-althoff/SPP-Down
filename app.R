@@ -105,7 +105,7 @@ server <- function(input, output){
       for (i in 1:nrow(shpDF)){
         file.rename(shpDF$datapath[i], shpDF$name[i])
       }
-      shpName <- shpDF$name[grep(x=shpDF$name, pattern="*.shp")]
+      shpName <- shpDF$name[grep(x=shpDF$name, pattern="*.shp$")]
       shpPath <- paste(uploadDirectory, shpName, sep="/")
       setwd(prevWD)
       shpFile <- readOGR(shpPath)
