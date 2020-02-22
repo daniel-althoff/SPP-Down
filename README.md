@@ -23,8 +23,10 @@ Be careful when comparing the sum of daily to monthly products. The following qu
 
 # Release history
 
+* <b>1.0.1</b> (22-02-2020)
+    * Included datasets: <a href='https://pmm.nasa.gov/data-access/downloads/gpm' target='blank'>Global Precipitation Mission</a> (<a href='https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGHH_06/summary' target='blank'>GPM_3IMERGHH.v06</a> and <a href='https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGM_06/summary' target='blank'>GPM_3IMERGM.v06</a>)
 * <b>1.0.0</b> (27-11-2019)
-    * Available datasets: <a href='https://pmm.nasa.gov/data-access/downloads/trmm' target='blank'>Tropical Rainfall Measuring Mission</a> (<a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B42_Daily_7/summary' target='blank'>TRMM_3B42.v7</a> and <a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B43_7/summary' target='blank'>TRMM_3B43.v7</a>) 
+    * Available datasets: <a href='https://pmm.nasa.gov/data-access/dohttps://disc.gsfc.nasa.gov/datasets/GPM_3IMERGHH_06/summarywnloads/trmm' target='blank'>Tropical Rainfall Measuring Mission</a> (<a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B42_Daily_7/summary' target='blank'>TRMM_3B42.v7</a> and <a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B43_7/summary' target='blank'>TRMM_3B43.v7</a>) 
     * Visualization of shapefile and buffer used to crop/mask
 
 # How to use
