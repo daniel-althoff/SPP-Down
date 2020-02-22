@@ -326,7 +326,7 @@ server <- function(input, output){
   
   
   ### Creating preview plot
-  ## download average TRMM 1998-2018
+  ## download average TRMM 1998-2017
   localtif <- reactive({
     req(input$shpFile)
     loadtif = tempfile(fileext = '.tif')
@@ -355,7 +355,7 @@ server <- function(input, output){
     
     levelplot(img, margin=F, 
               xlab='Latitude', ylab='Longitude', 
-              main ='Preview: 1998-2018 average (TRMM)',
+              main ='Preview: 1998-2017 average (TRMM)',
               colorkey=list(space='right',
                             axis.line=list(col='black')),
               par.settings=list(axis.line=list(col='transparent')),
