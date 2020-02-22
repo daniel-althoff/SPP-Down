@@ -11,49 +11,81 @@ library(shinyFiles)
 library(rasterVis)
 library(viridis)
 library(latticeExtra)
+library(rvest)
 
 
 
-#User-interface
+#### User-interface
 ui <- fluidPage(
-  titlePanel(tags$div(h4(a('Satellite Precipitation Products Download v1.0.0', href = 'https://github.com/daniel-althoff/SPP-Down')),
-                      h6('Datasets available: ', a('TRMM', href='https://pmm.nasa.gov/data-access/downloads/trmm') ))),
+  titlePanel(tags$div(h4(a('Satellite Precipitation Products Download v1.0.1', href = 'https://github.com/daniel-althoff/SPP-Down')),
+                      h6('Datasets available: ',
+                         a('TRMM', href='https://pmm.nasa.gov/data-access/downloads/trmm'),
+                         'and',
+                         a('GPM IMERG', href='https://pmm.nasa.gov/data-access/downloads/gpm')))),
   useShinyjs(),
   fluidRow(
+    ### First column (Left > Right)
     column(3,
+           ### First row (Top > Down)
            wellPanel(
              h5('If you have not already done so, please register:'),
              h6(a('Create Earthdata account', href='https://urs.earthdata.nasa.gov/home')),
              h6(a('Link GES DISC with your account', href='https://disc.gsfc.nasa.gov/earthdata-login')),
              
-             textInput('acc', h6(tags$b('Earthdata account:'))),
-             passwordInput('pass', h6(tags$b('Password:'))),
+             ## Input authentication 
+             textInput('acc', label = div(style = 'font-size:10px;',"Earthdata account:"), placeholder = 'e-mail'),
+             passwordInput('pass', label = div(style = 'font-size:10px;','Password:'), placeholder = '******'),
              
-             dateRangeInput('date', h6(tags$b("Date range:")), 
-                            start = '1998-01-01', end = '2019-08-31',
-                            min = '1998-01-01', max = '2019-08-31'),
+             ## Data product
+             radioButtons('ppt', label = div(style = 'font-size:10px;','Precipitation product:'), 
+                          choices = list('TRMM', 'GPM'),
+                          inline=T,
+                          selected = 'TRMM'),
+             tags$br(),
              
-             radioButtons('timescale', h6(tags$b('Time resolution:')), 
+             ## Time scale
+             radioButtons('timescale', label = div(style = 'font-size:10px;','Time resolution:'), 
                           choices = list('Daily', 'Monthly'),
                           inline=T,
-                          selected = 'Daily')
+                          selected = 'Daily'),
+             tags$br(),
+             
+             ## Data range
+             uiOutput('daterange')),
+             
+           
+           ## Configuring box sizes
+           tags$head(
+             tags$style(
+               HTML('
+                    #acc{font-size: 10px; height: 25px}
+                    #pass{font-size: 10px; height: 25px}
+                    #timescale{height: 30px}
+                    #ppt{height: 30px}
+                    #daterange{font-size: 10px; height: 40px}
+                    ')
+               )
            ),
-           wellPanel(
-             p('Made with ', a('Shiny', href='http://shiny.rstudio.com'), '.'),
-             img(src='Shiny.png', height='50x')
-           )
+           
+           ### Second row 
+           wellPanel(style = 'background: white; border: white; height: 25px;',
+             p(img(src='Shiny.png', height='25x'),
+               'Made with ', a('Shiny.', href='http://shiny.rstudio.com'))
+             )
     ),
     
+    ### Second column
     column(3,
            wellPanel(
-             div(style='height: 110px',
+             div(style='height: 110px; font-size: 10px;',
                  fileInput('shpFile', h6(tags$b('Input shapefile components'), h6(tags$em('(.shp, .shx, .dbf, .prj, etc...)'))),
                            multiple=TRUE, accept=c('.shp','.dbf','.sbn','.sbx','.shx',".prj"))),
-             div(style='height: 80px',
+             div(style='height: 80px; font-size: 10px;',
                  numericInput('buffer', h6(tags$b('Buffer'), tags$em('(ex: 0.25 degrees)')), min = 0, max = 50, step = 0.25, value = 0.0))
            )
     ),
     
+    ### Third column
     column(3,
            wellPanel(
              h6(tags$b('Choose download output folder')),
@@ -64,6 +96,7 @@ ui <- fluidPage(
            )
     ),
     
+    ### Main panel
     column(9,
            mainPanel(
              column(6,h6(tags$b('Download button will appear here:'))),
@@ -71,16 +104,28 @@ ui <- fluidPage(
              plotOutput(outputId = 'AvgTRMM')
            )
     )
-    
   )
 )
 
-#Server-side
+
+##### Server-side
 server <- function(input, output){
+  ## Welcome message
+  cat('\n Welcome to SPP-Down! \n For a tutorial or information o satellite products, visit: \n https://github.com/daniel-althoff/SPP-Down \n\n')
+  cat('Please enter your Earthdata account and password... \n')
+
+  ## Dynamic date range based on rainfall product
+  output$daterange <- renderUI({
+    dateRangeInput('daterange', "Date range:",
+                   start = switch(input$ppt, 'TRMM' = '1998-01-01', 'GPM' = '2000-06-01'),
+                   end = switch(input$ppt, 'TRMM' = '2019-11-30', 'GPM' = '2019-10-31'),
+                   min = switch(input$ppt, 'TRMM' = '1998-01-01', 'GPM' = '2000-06-01'),
+                   max = switch(input$ppt, 'TRMM' = '2019-11-30', 'GPM' = '2019-10-31'))
+  })
   
+  ## Hide download button until shp, acc, pass, and dir are provided
   observe({
     shinyjs::hide('button')
-    
     req(shp_buffer())
     req(acc())
     req(pass())
@@ -88,14 +133,18 @@ server <- function(input, output){
     shinyjs::show('button')
   })
   
+  ## Getting root folder for folder choice
   roots = c(name = unlist(strsplit(getwd(), .Platform$file.sep))[1])
   shinyDirChoose(input, 'dir', roots = roots)
   dir <- reactive({
     return(print(parseDirPath(roots, input$dir)))
   })
+  ## When chosen, print output dir to confirm
   output$dir <- renderPrint(dir())
   
+  ## Maximum shapefile upload size = 50 mb
   options(shiny.maxRequestSize=50*1024^2)
+  ## Upload shapefile
   uploadShpfile <- reactive({
     if (!is.null(input$shpFile)){
       shpDF <- input$shpFile
@@ -108,53 +157,71 @@ server <- function(input, output){
       shpName <- shpDF$name[grep(x=shpDF$name, pattern="*.shp$")]
       shpPath <- paste(uploadDirectory, shpName, sep="/")
       setwd(prevWD)
-      shpFile <- readOGR(shpPath)
+      shpFile <- readOGR(shpPath, verbose = F)
       shpFile <- spTransform(shpFile, CRSobj = CRS('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0'))
+      cat('\n Shapefile OK! \n')
       return(shpFile)
     } else { return() }
   })
   
-  
+  ## Grabbing input date-range
   data_range <- reactive({
-    switch(input$timescale,
-           'Daily' = gsub('-','',seq.Date(from = input$date[1], to = input$date[2], by='day')),
-           'Monthly' = gsub('-','',seq.Date(from = input$date[1]-day(input$date[1])+1, to = input$date[2]-day(input$date[2])+1, by='month')))
+    range <- switch(input$timescale,
+           'Daily' = gsub('-','',seq.Date(from = input$daterange[1], to = input$daterange[2], by='day')),
+           'Monthly' = gsub('-','',seq.Date(from = input$daterange[1]-day(input$daterange[1])+1, to = input$daterange[2]-day(input$daterange[2])+1, by='month')))
   })
   
+  ## Coefficient to convert data units (monthly comes in mm/hr)
   correcao <- reactive({
     switch(input$timescale,
            'Daily' = rep(1, length(data_range())),
-           'Monthly' = 24*days_in_month(seq.Date(from = input$date[1], to = input$date[2], by='month'))
-           
+           'Monthly' = 24*days_in_month(seq.Date(from = input$daterange[1], to = input$daterange[2], by='month'))
     )
   })
   
+  ## Storing account and password
   acc <- reactive({
-    acc <- URLencode(input$acc, reserved = T)
+    # acc <- URLencode(input$acc, reserved = T)
+    acc <- input$acc
     return(acc)
   })
-  
   pass <- reactive({
-    pass <- URLencode(input$pass, reserved = T)
+    # pass <- URLencode(input$pass, reserved = T)
+    pass <- input$pass
     return(pass)
   })
+  
+  ## Getting list of files to download
+  observeEvent(c(input$ppt, input$timescale), {
+    switch(input$ppt, 
+           'TRMM' = switch(input$timescale,
+                           'Daily' = cat('- Daily TRMM list selected \n'),
+                           'Monthly' = cat('- Monthly TRMM list selected \n')),
+           'GPM' = switch(input$timescale,
+                          'Daily' = cat('- Daily GPM list selected \n'),
+                          'Monthly' = cat('- Monthly GPM list selected \n'))
+           )
+  })
   files_to_download <- reactive({
-    switch(input$timescale,
-           'Daily' = paste0('https://',
-                            acc(),':',pass(),'@',
-                            'disc2.gesdisc.eosdis.nasa.gov/opendap/',
-                            'TRMM_L3/TRMM_3B42_Daily.7/',substr(data_range(),1,4),
-                            '/',substr(data_range(),5,6),'/3B42_Daily.',
-                            data_range(),'.7.nc4.nc4?precipitation,lon,lat'),
-           'Monthly' = paste0('https://',
-                              acc(),':',pass(),'@',
-                              'disc2.gesdisc.eosdis.nasa.gov/opendap/',
-                              'TRMM_L3/TRMM_3B43.7/',substr(data_range(),1,4),
-                              '/3B43.',
-                              substr(data_range(),1,6),'01.7.HDF.nc4?precipitation,nlon,nlat')
-    )
+    lista <- switch(input$ppt,
+                    'TRMM' = switch(input$timescale,
+                           'Daily' = 'https://github.com/daniel-althoff/SPP-Down/raw/master/lists/TRMM_3B42_Daily_7.txt',
+                           'Monthly' = 'https://github.com/daniel-althoff/SPP-Down/raw/master/lists/TRMM_3B43_Monthly_7.txt'),
+                    'GPM' = switch(input$timescale,
+                          'Daily' = 'https://github.com/daniel-althoff/SPP-Down/raw/master/lists/GPM_3IMERGDF_06_daily.txt',
+                          'Monthly' = 'https://github.com/daniel-althoff/SPP-Down/raw/master/lists/GPM_3IMERGM_06_monthly.txt')
+                    )
+    lista <- lista %>% 
+      read.delim(header=F) %>% 
+      as_tibble() %>%
+      rename(Link = 1) %>%
+      mutate(Link = as.character(Link))
+    lista <- lista[grep(x = lista$Link, pattern='.nc4'),]$Link
+    return(lista)
   })
   
+ 
+  ## Creating shape + buffer (if any)
   shp_buffer <- reactive({
     req(input$shpFile)
     shp <- spTransform(uploadShpfile(), CRSobj = CRS('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0'))
@@ -164,44 +231,87 @@ server <- function(input, output){
     return(shp)
   })
   
-  
+  ## Download files
   observeEvent(input$button, {
     req(input$shpFile)
+    
+    ## Check existence/create download folder
     SPP_folder <- paste0(dir(),"\\SPP_folder")
-    if(!file.exists(SPP_folder))
-      dir.create(SPP_folder)
-    # temp <- tempfile(fileext = ".nc4", tmpdir = "TRMM_folder")
+    if(!file.exists(SPP_folder)) {dir.create(SPP_folder)}
+    
+    ## Get authorization in Earthdata
+    req(input$acc)
+    req(input$pass)
+    cat('\n Checking authorization... \n')
+    session <- html_session("https://urs.earthdata.nasa.gov/")
+    form <- html_form(session)[[1]]
+    form <- set_values(form, username = acc(), password = pass())
+    session_open <- submit_form(session, form)
+    
+    ## Begin for loop download
     for(i in seq_along(data_range())){
+      # Temp filename
       filename = tempfile(fileext = '.nc4')
-      fileName <- switch(input$timescale,
-                         'Daily' = paste(SPP_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
-                         'Monthly' = paste(SPP_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")
-      )
-      errr <- try(download.file(files_to_download()[i], filename, mode = "wb", quiet = T))
-      if (class(errr) == 'try-error') download.file(sub(pattern = '7.HDF', replacement = '7A.HDF', x = files_to_download()[i]), filename, mode = "wb", quiet = T)
+      # Final save filename
+      fileName <- switch(input$ppt, 
+                         'TRMM' = switch(input$timescale,
+                                        'Daily' = paste(SPP_folder,"\\TRMM_",data_range()[i],".tif",sep = ""),
+                                        'Monthly' = paste(SPP_folder,"\\TRMM_",substr(data_range()[i],1,6),".tif",sep = "")),
+                         'GPM' = switch(input$timescale,
+                                        'Daily' = paste(SPP_folder,"\\GPM_",data_range()[i],".tif",sep = ""),
+                                        'Monthly' = paste(SPP_folder,"\\GPM_",substr(data_range()[i],1,6),".tif",sep = ""))
+                         )
+      # Grab binary info and download to temporary file
+      if (i==1) cat('Downloading... \n')
+      file_to_download <- files_to_download()[grep(x = files_to_download(), pattern = data_range()[i])]
+      session_down <- jump_to(session_open, file_to_download)
+      writeBin(session_down$response$content, filename)
+      
       addResourcePath("SPP_folder",SPP_folder)
+      
+      # Open .nc4 file and get coordinates
       XX <- ncdf4::nc_open(filename)
+      # lon <- switch(input$ppt,
+      #               'TRMM' = switch(input$timescale,
+      #                               'Daily' = ncvar_get(XX, 'lon'),
+      #                               'Monthly' = ncvar_get(XX, 'nlon')),
+      #               'GPM' = switch(input$timescale,
+      #                              'Daily' = ncvar_get(XX, 'lon'),
+      #                              'Monthly' = ncvar_get(XX, 'lon'))
+      #               )
+      # nlon <- dim(lon)
+      # 
+      # lat <- switch(input$ppt,
+      #               'TRMM' = switch(input$timescale,
+      #                               'Daily' = ncvar_get(XX, 'lat'),
+      #                               'Monthly' = ncvar_get(XX, 'nlat')),
+      #               'GPM' = switch(input$timescale,
+      #                              'Daily' = ncvar_get(XX, 'lat'),
+      #                              'Monthly' = ncvar_get(XX, 'lat'))
+      #               )
+      # nlat <- dim(lat)
       
-      lon <- switch(input$timescale,
-                    'Daily' = ncvar_get(XX, 'lon'),
-                    'Monthly' = ncvar_get(XX, 'nlon'))
-      nlon <- dim(lon)
-      
-      lat <- switch(input$timescale,
-                    'Daily' = ncvar_get(XX, 'lat'),
-                    'Monthly' = ncvar_get(XX, 'nlat'))
-      nlat <- dim(lat)
-      
-      prec <- ncvar_get(XX, 'precipitation')
-      fillv <- ncatt_get(XX,'precipitation', '_FillValue')
+      layername <- switch(input$ppt,
+                          'TRMM' = 'precipitation',
+                          'GPM' = switch(input$timescale,
+                                         'Daily' = 'precipitationCal',
+                                         'Monthly' = 'precipitation')
+                          )
+      prec <- ncvar_get(XX, layername)
+      fillv <- ncatt_get(XX,layername, '_FillValue')
       nc_close(XX)
       unlink(filename)
       
+      # Convert to raster and save as .tif
       prec[prec == fillv$value] <- NA
-      r <- raster((prec), xmn=-180, xmx=180, ymn=-50, ymx=50, 
+      ylim <- switch(input$ppt,
+                     'TRMM' = 50,
+                     'GPM' = 90)
+      r <- raster((prec), xmn=-180, xmx=180, ymn=-ylim, ymx=ylim, 
                   crs=CRS('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs+ towgs84=0,0,0')) %>%
         flip(direction='y')
       
+      # crop/mask including border grid cells of shapefile
       options(warn = -1)
       cls <- cellFromPolygon(r, shp_buffer(), weights = TRUE)[[1]][, "cell"]
       r[][-cls] <- NA
@@ -209,13 +319,18 @@ server <- function(input, output){
       options(warn = 0)
       
       writeRaster(r*correcao()[i], fileName, format='GTiff', overwrite=T)
+      cat(paste0(fileName,' saved... \n'))
     }
+    cat('\n Done! \n')
   })
   
+  
+  ### Creating preview plot
+  ## download average TRMM 1998-2018
   localtif <- reactive({
     req(input$shpFile)
     loadtif = tempfile(fileext = '.tif')
-    download.file('https://github.com/danielalthoff/TRMM_down/raw/master/www/1998_2017_avg.tif',
+    download.file('https://github.com/daniel-althoff/SPP-Down/raw/master/www/1998_2017_avg.tif',
                   destfile = loadtif, mode='wb', quiet = T)
     localtif = raster(loadtif)
     crs(localtif) <- crs(shp_buffer())
@@ -225,18 +340,12 @@ server <- function(input, output){
     localtif[][-cls] <- NA
     localtif <- trim(localtif)
     options(warn = 0)
-    # localtif = crop(localtif, shp_buffer()) %>% mask(shp_buffer())
+    
     unlink(loadtif)
     return(localtif)
   })
   
-  # observe({
-  #   req(input$shpFile)
-  #   raster_pts <- localtif() %>% crop(shp_buffer()) %>%
-  #     mask(shp_buffer()) %>% rasterToPoints() %>% tbl_df() %>% rename('Rain' = 3)
-  #   print(names(raster_pts)[3])
-  # })
-  
+  ## Create a preview plot of shapefile and average annual rainfall
   output$AvgTRMM <- renderPlot({
     req(input$shpFile)
     
@@ -244,20 +353,19 @@ server <- function(input, output){
     shp1 <- shp_buffer()
     shp2 <- uploadShpfile()
     
-    levelplot(img, 
-              margin=T, xlab='Latitude', ylab='Longitude',
+    levelplot(img, margin=F, 
+              xlab='Latitude', ylab='Longitude', 
+              main ='Preview: 1998-2018 average (TRMM)',
               colorkey=list(space='right',
-                            # labels=list(at=seq(from=400, to=1200, length.out = 9)),
                             axis.line=list(col='black')),
               par.settings=list(axis.line=list(col='transparent')),
               scales=list(draw=T), col.regions=viridis(n=101, direction=-1)) +           
       layer(sp.polygons(shp2, lwd=1), data = list(shp2 = shp2)) +
       layer(sp.polygons(shp1, lwd=1, lty=2), data = list(shp1=shp1))
-    
-  })
-  
+  }, height = 225)
 }
 
-#ShinyApp
+
+##### ShinyApp
 shinyApp(ui = ui, server = server)
 
