@@ -17,14 +17,14 @@ The main goal of the SPP-Down is to help people that are not proficient in progr
     
 <b><em>Note:</em></b> If the desired time resolution is <b>Monthly</b>, the original unit is in <b>mm/hr</b> and will be converted to <b>mm/month</b> considering the correct number of days within each month.<br>
    
-Be careful when comparing the sum of daily to monthly products. The following quote is from the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA) on the <b>Algorithm and Processing</b>:<br>
+Be careful when comparing the sum of daily to monthly products. According to the <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission?qt-climatedatasetmaintabs=1#qt-climatedatasetmaintabs' target='blank'>Expert Developer Guidance</a> (Dr. George J. Huffman - NASA) on the <b>Algorithm and Processing</b>:<br>
  <em>"Limits are imposed on the scaling to avoid unphysical results, so particularly in low-rain areas, <b>the 3B42 values in a month may not sum exactly to the corresponding 3B43</b>. For this reason, 3B43 is the preferred dataset for monthly values."</em> <br>
  -- 3B42 and 3B43 refers to daily and monthly products of the Tropical Rainfall Measuring Mission.
 
 # Release history
 
 * <b>1.0.1</b> (22-02-2020)
-    * Included datasets: <a href='https://pmm.nasa.gov/data-access/downloads/gpm' target='blank'>Global Precipitation Mission</a> (<a href='https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGHH_06/summary' target='blank'>GPM_3IMERGHH.v06</a> and <a href='https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGM_06/summary' target='blank'>GPM_3IMERGM.v06</a>)
+    * New datasets: <a href='https://pmm.nasa.gov/data-access/downloads/gpm' target='blank'>Global Precipitation Mission</a> (<a href='https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGHH_06/summary' target='blank'>GPM_3IMERGHH.v06</a> and <a href='https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGM_06/summary' target='blank'>GPM_3IMERGM.v06</a>)
 * <b>1.0.0</b> (27-11-2019)
     * Available datasets: <a href='https://pmm.nasa.gov/data-access/dohttps://disc.gsfc.nasa.gov/datasets/GPM_3IMERGHH_06/summarywnloads/trmm' target='blank'>Tropical Rainfall Measuring Mission</a> (<a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B42_Daily_7/summary' target='blank'>TRMM_3B42.v7</a> and <a href='https://disc.gsfc.nasa.gov/datasets/TRMM_3B43_7/summary' target='blank'>TRMM_3B43.v7</a>) 
     * Visualization of shapefile and buffer used to crop/mask
@@ -44,7 +44,7 @@ Be careful when comparing the sum of daily to monthly products. The following qu
 ```{r setup}
 if(!require(pacman)) install.packages('pacman')
 pacman::p_load(dplyr, raster, rgdal, ncdf4, shiny, rasterVis, viridis, latticeExtra,
-               sp, lubridate, rgeos, shinyjs, shinyFiles, update = F)
+               sp, lubridate, rgeos, shinyjs, shinyFiles, rvest, update = F)
                
 runGitHub("SPP-Down", "daniel-althoff")
 ```
@@ -55,8 +55,9 @@ runGitHub("SPP-Down", "daniel-althoff")
 
 * <b>Fill all required information</b> 
     * Provide your Earthdata account and password
-    * Choose desired data range
-    * Choose desired time resolution (Daily or Monthly)
+    * Choose desired precipitation product (GPM or TRMM)
+    * Choose desired temporal resolution (Daily or Monthly)
+    * Set desired data range
     * Select your shapefile (remeber to select all components, i.e, <em>.shp, shx, .dbf, .prj, etc...</em>)
     * Input buffer (>= 0)
     * Select output folder
