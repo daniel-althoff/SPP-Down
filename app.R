@@ -118,9 +118,9 @@ server <- function(input, output){
   output$daterange <- renderUI({
     dateRangeInput('daterange', "Date range:",
                    start = switch(input$ppt, 'TRMM' = '1998-01-01', 'GPM' = '2000-06-01'),
-                   end = switch(input$ppt, 'TRMM' = '2019-11-30', 'GPM' = '2019-10-31'),
+                   end = switch(input$ppt, 'TRMM' = '2019-11-30', 'GPM' = '2020-12-31'),
                    min = switch(input$ppt, 'TRMM' = '1998-01-01', 'GPM' = '2000-06-01'),
-                   max = switch(input$ppt, 'TRMM' = '2019-11-30', 'GPM' = '2019-10-31'))
+                   max = switch(input$ppt, 'TRMM' = '2019-11-30', 'GPM' = '2020-12-31'))
   })
   
   ## Hide download button until shp, acc, pass, and dir are provided
