@@ -1,5 +1,5 @@
 https://docserver.gesdisc.eosdis.nasa.gov/public/project/GPM/IMERG_ATBD_V06.pdf
-https://gpm1.gesdisc.eosdis.nasa.gov/data/doc/README.GPM.pdf
+https://gpm1.gesdisc.eosdis.nasa.gov/data/GPM_L3/doc/README.GPM.pdf
 https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2000/3B-MO.MS.MRG.3IMERG.20000601-S000000-E235959.06.V06B.HDF5.nc4?precipitation,time,lon,lat
 https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2000/3B-MO.MS.MRG.3IMERG.20000701-S000000-E235959.07.V06B.HDF5.nc4?precipitation,time,lon,lat
 https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2000/3B-MO.MS.MRG.3IMERG.20000801-S000000-E235959.08.V06B.HDF5.nc4?precipitation,time,lon,lat
@@ -233,3 +233,17 @@ https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2019/3B-MO.MS
 https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2019/3B-MO.MS.MRG.3IMERG.20190801-S000000-E235959.08.V06B.HDF5.nc4?precipitation,time,lon,lat
 https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2019/3B-MO.MS.MRG.3IMERG.20190901-S000000-E235959.09.V06B.HDF5.nc4?precipitation,time,lon,lat
 https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2019/3B-MO.MS.MRG.3IMERG.20191001-S000000-E235959.10.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2019/3B-MO.MS.MRG.3IMERG.20191101-S000000-E235959.11.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2019/3B-MO.MS.MRG.3IMERG.20191201-S000000-E235959.12.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200101-S000000-E235959.01.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200201-S000000-E235959.02.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200301-S000000-E235959.03.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200401-S000000-E235959.04.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200501-S000000-E235959.05.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200601-S000000-E235959.06.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200701-S000000-E235959.07.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200801-S000000-E235959.08.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20200901-S000000-E235959.09.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20201001-S000000-E235959.10.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20201101-S000000-E235959.11.V06B.HDF5.nc4?precipitation,time,lon,lat
+https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGM.06/2020/3B-MO.MS.MRG.3IMERG.20201201-S000000-E235959.12.V06B.HDF5.nc4?precipitation,time,lon,lat
